@@ -13,7 +13,8 @@
     <label>URL:
         <input type="text" name="url" value="<%=helperText%>"><br>
     </label>
-    <label><%=notFoundText%></label><br>
+    <label><%=notFoundText%>
+    </label><br>
     <input type="submit" value="Best&auml;tigen">
 </form>
 </body>

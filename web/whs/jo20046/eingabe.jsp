@@ -1,31 +1,25 @@
+<%@ page import="whs.jo20046.beans.URLsBean" %>
+<%@ page import="whs.jo20046.beans.NotFoundBean" %>
 <html>
 <head>
     <title>Eingabe</title>
 </head>
 <body>
 <%
-    String helperText1 = (String) session.getAttribute("urlInput1");
-    String helperText2 = (String) session.getAttribute("urlInput2");
-    String helperText3 = (String) session.getAttribute("urlInput3");
-    String notFoundText1 = (String) session.getAttribute("notFoundText1");
-    String notFoundText2 = (String) session.getAttribute("notFoundText2");
-    String notFoundText3 = (String) session.getAttribute("notFoundText3");
-    if (helperText1 == null) helperText1 = "";
-    if (helperText2 == null) helperText2 = "";
-    if (helperText3 == null) helperText3 = "";
-    if (notFoundText1 == null) notFoundText1 = "";
-    if (notFoundText2 == null) notFoundText2 = "";
-    if (notFoundText3 == null) notFoundText3 = "";
+    URLsBean urLsBean = (URLsBean) session.getAttribute("URLs");
+    NotFoundBean notFoundBean = (NotFoundBean) session.getAttribute("NotFound");
+    if (urLsBean == null) urLsBean = new URLsBean("", "", "");
+    if (notFoundBean == null) notFoundBean = new NotFoundBean();
 %>
 <form method="post" action="${pageContext.request.contextPath}/Pruefung">
     <label>1. URL:
-        <input type="text" name="url1" value="<%=helperText1%>"> <%=notFoundText1%><br>
+        <input type="text" name="url1" value="<%=urLsBean.getUrl1()%>"> <%=notFoundBean.getNotFoundText(0)%><br><br>
     </label>
     <label>2. URL:
-        <input type="text" name="url2" value="<%=helperText2%>"> <%=notFoundText2%><br>
+        <input type="text" name="url2" value="<%=urLsBean.getUrl2()%>"> <%=notFoundBean.getNotFoundText(1)%><br><br>
     </label>
     <label>3. URL:
-        <input type="text" name="url3" value="<%=helperText3%>"> <%=notFoundText3%><br>
+        <input type="text" name="url3" value="<%=urLsBean.getUrl3()%>"> <%=notFoundBean.getNotFoundText(2)%><br><br>
     </label>
     <input type="submit" value="Best&auml;tigen">
 </form>

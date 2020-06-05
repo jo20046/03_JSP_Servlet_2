@@ -1,5 +1,8 @@
 package whs.jo20046;
 
+import whs.jo20046.beans.NotFoundBean;
+import whs.jo20046.beans.URLsBean;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,10 +28,12 @@ public class Pruefung extends HttpServlet {
     private void checkConnectionAndRedirect(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 
         String[] urls = {request.getParameter("url1"), request.getParameter("url2"), request.getParameter("url3")};
-        session.setAttribute("urlInput1", urls[0]);
-        session.setAttribute("urlInput2", urls[1]);
-        session.setAttribute("urlInput3", urls[2]);
+        URLsBean urLsBean = new URLsBean(urls[0], urls[1], urls[2]);
+        NotFoundBean notFoundBean = new NotFoundBean();
         boolean allConnectionsOK = true;
+
+        session.setAttribute("URLs", urLsBean);
+        session.setAttribute("NotFound", notFoundBean);
 
         for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
             String urlInput = urls[i];
@@ -42,10 +47,10 @@ public class Pruefung extends HttpServlet {
                 HttpURLConnection huc = (HttpURLConnection) url.openConnection();
                 huc.setRequestMethod("GET");
                 huc.getResponseCode();
-                session.setAttribute("notFoundText" + (i + 1), "");
+                notFoundBean.setNotFoundText(i, "");
             } catch (Exception e) {
                 allConnectionsOK = false;
-                session.setAttribute("notFoundText" + (i + 1), "Eingebene URL konnte nicht gefunden werden.");
+                notFoundBean.setNotFoundText(i, "Eingebene URL konnte nicht gefunden werden.");
                 int j = 0;
             }
         }

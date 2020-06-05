@@ -15,35 +15,45 @@ public class Pruefung extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         HttpSession session = request.getSession();
-
-        String urlInput;
-        boolean connectionOK;
-
-        urlInput = request.getParameter("url");
-
-        if (!urlInput.startsWith("https://")) {
-            urlInput = "https://" + urlInput;
-        }
-        try {
-            URL url = new URL(urlInput);
-            HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-            huc.setRequestMethod("GET");
-            connectionOK = huc.getResponseCode() == HttpURLConnection.HTTP_OK;
-        } catch (Exception e) {
-            connectionOK = false;
-        }
-
-        session.setAttribute("urlInput", urlInput);
-        if (connectionOK) {
-            session.setAttribute("notFoundText", "");
-            response.sendRedirect("whs/jo20046/ausgabe.jsp");
-        } else {
-            session.setAttribute("notFoundText", "Eingebene URL konnte nicht gefunden werden.");
-            response.sendRedirect("whs/jo20046/eingabe.jsp");
-        }
+        checkConnectionAndRedirect(request, response, session);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    private void checkConnectionAndRedirect(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+
+        String[] urls = {request.getParameter("url1"), request.getParameter("url2"), request.getParameter("url3")};
+        session.setAttribute("urlInput1", urls[0]);
+        session.setAttribute("urlInput2", urls[1]);
+        session.setAttribute("urlInput3", urls[2]);
+        boolean allConnectionsOK = true;
+
+        for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
+            String urlInput = urls[i];
+
+            if (!urlInput.startsWith("https://")) {
+                urlInput = "https://" + urlInput;
+            }
+
+            try {
+                URL url = new URL(urlInput);
+                HttpURLConnection huc = (HttpURLConnection) url.openConnection();
+                huc.setRequestMethod("GET");
+                huc.getResponseCode();
+                session.setAttribute("notFoundText" + (i + 1), "");
+            } catch (Exception e) {
+                allConnectionsOK = false;
+                session.setAttribute("notFoundText" + (i + 1), "Eingebene URL konnte nicht gefunden werden.");
+                int j = 0;
+            }
+        }
+
+        if (allConnectionsOK) {
+            response.sendRedirect("whs/jo20046/ausgabe.jsp");
+        } else {
+            response.sendRedirect("whs/jo20046/eingabe.jsp");
+        }
     }
 }

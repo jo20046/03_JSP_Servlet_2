@@ -5,7 +5,9 @@
 </head>
 <body>
 
-url: <%= session.getAttribute("urlInput") %>
+url1: <%= session.getAttribute("urlInput1") %><br>
+url2: <%= session.getAttribute("urlInput2") %><br>
+url3: <%= session.getAttribute("urlInput3") %><br>
 
 </body>
 </html>

@@ -8,7 +8,7 @@
     Data data = (Data) session.getAttribute("Data");
     if (data == null) data = new Data();
 %>
-<form method="post" action="${pageContext.request.contextPath}/Pruefung">
+<form method="post" action="${pageContext.request.contextPath}/check">
     <label>1. URL:
         <input type="text" name="url1" value="<%=data.getUrl(0)%>"> <%=data.getNotFoundText(0)%><br><br>
     </label>

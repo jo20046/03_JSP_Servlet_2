@@ -8,11 +8,11 @@
         <welcome-file>/whs/jo20046/eingabe.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
-        <servlet-name>Pruefung</servlet-name>
-        <servlet-class>whs.jo20046.Pruefung</servlet-class>
+        <servlet-name>Check</servlet-name>
+        <servlet-class>whs.jo20046.controller.Check</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>Pruefung</servlet-name>
-        <url-pattern>/Pruefung</url-pattern>
+        <servlet-name>Check</servlet-name>
+        <url-pattern>/check</url-pattern>
     </servlet-mapping>
 </web-app>

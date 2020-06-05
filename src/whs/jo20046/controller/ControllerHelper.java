@@ -1,41 +1,43 @@
-package whs.jo20046;
+package whs.jo20046.controller;
 
 import whs.jo20046.beans.Data;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-@WebServlet(name = "Pruefung")
-public class Pruefung extends HttpServlet {
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+public class ControllerHelper extends HelperBase {
 
-        HttpSession session = request.getSession();
-        checkConnectionAndRedirect(request, response, session);
+    protected Data data = new Data();
+
+    public ControllerHelper(HttpServletRequest request, HttpServletResponse response) {
+        super(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    @Override
+    public void doPost() throws IOException {
 
+        if (request.getSession().getAttribute("helper") == null) {
+            request.getSession().setAttribute("helper", this);
+        }
+
+        if (request.getSession().getAttribute("Data") == null) {
+            request.getSession().setAttribute("Data", data);
+        }
+
+        checkURLsAndRedirect();
     }
 
-    private void checkConnectionAndRedirect(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
+    private void checkURLsAndRedirect() throws IOException {
 
-        String[] urls = {request.getParameter("url1"), request.getParameter("url2"), request.getParameter("url3")};
-        Data data = new Data();
         data.setUrl(0, request.getParameter("url1"));
         data.setUrl(1, request.getParameter("url2"));
         data.setUrl(2, request.getParameter("url3"));
         boolean allConnectionsOK = true;
 
-        session.setAttribute("Data", data);
-
-        for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
+        for (int i = 0, urlsLength = data.getUrls().length; i < urlsLength; i++) {
             String urlInput = data.getUrl(i);
 
             if (!urlInput.startsWith("https://")) {
@@ -60,4 +62,5 @@ public class Pruefung extends HttpServlet {
             response.sendRedirect("whs/jo20046/eingabe.jsp");
         }
     }
+
 }

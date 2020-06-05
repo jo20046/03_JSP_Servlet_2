@@ -36,10 +36,10 @@ public class Pruefung extends HttpServlet {
         session.setAttribute("urlInput", urlInput);
         if (connectionOK) {
             session.setAttribute("notFoundText", "");
-            response.sendRedirect("ausgabe.jsp");
+            response.sendRedirect("whs/jo20046/ausgabe.jsp");
         } else {
             session.setAttribute("notFoundText", "Eingebene URL konnte nicht gefunden werden.");
-            response.sendRedirect("eingabe.jsp");
+            response.sendRedirect("whs/jo20046/eingabe.jsp");
         }
     }
 

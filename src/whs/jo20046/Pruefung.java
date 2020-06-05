@@ -1,7 +1,6 @@
 package whs.jo20046;
 
-import whs.jo20046.beans.NotFoundBean;
-import whs.jo20046.beans.URLsBean;
+import whs.jo20046.beans.Data;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,15 +27,16 @@ public class Pruefung extends HttpServlet {
     private void checkConnectionAndRedirect(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws IOException {
 
         String[] urls = {request.getParameter("url1"), request.getParameter("url2"), request.getParameter("url3")};
-        URLsBean urLsBean = new URLsBean(urls[0], urls[1], urls[2]);
-        NotFoundBean notFoundBean = new NotFoundBean();
+        Data data = new Data();
+        data.setUrl(0, request.getParameter("url1"));
+        data.setUrl(1, request.getParameter("url2"));
+        data.setUrl(2, request.getParameter("url3"));
         boolean allConnectionsOK = true;
 
-        session.setAttribute("URLs", urLsBean);
-        session.setAttribute("NotFound", notFoundBean);
+        session.setAttribute("Data", data);
 
         for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
-            String urlInput = urls[i];
+            String urlInput = data.getUrl(i);
 
             if (!urlInput.startsWith("https://")) {
                 urlInput = "https://" + urlInput;
@@ -47,11 +47,10 @@ public class Pruefung extends HttpServlet {
                 HttpURLConnection huc = (HttpURLConnection) url.openConnection();
                 huc.setRequestMethod("GET");
                 huc.getResponseCode();
-                notFoundBean.setNotFoundText(i, "");
+                data.setNotFoundText(i, "");
             } catch (Exception e) {
                 allConnectionsOK = false;
-                notFoundBean.setNotFoundText(i, "Eingebene URL konnte nicht gefunden werden.");
-                int j = 0;
+                data.setNotFoundText(i, "Eingebene URL konnte nicht gefunden werden.");
             }
         }
 

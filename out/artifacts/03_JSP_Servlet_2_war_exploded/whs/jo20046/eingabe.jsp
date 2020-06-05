@@ -1,25 +1,22 @@
-<%@ page import="whs.jo20046.beans.URLsBean" %>
-<%@ page import="whs.jo20046.beans.NotFoundBean" %>
+<%@ page import="whs.jo20046.beans.Data" %>
 <html>
 <head>
     <title>Eingabe</title>
 </head>
 <body>
 <%
-    URLsBean urLsBean = (URLsBean) session.getAttribute("URLs");
-    NotFoundBean notFoundBean = (NotFoundBean) session.getAttribute("NotFound");
-    if (urLsBean == null) urLsBean = new URLsBean("", "", "");
-    if (notFoundBean == null) notFoundBean = new NotFoundBean();
+    Data data = (Data) session.getAttribute("Data");
+    if (data == null) data = new Data();
 %>
 <form method="post" action="${pageContext.request.contextPath}/Pruefung">
     <label>1. URL:
-        <input type="text" name="url1" value="<%=urLsBean.getUrl1()%>"> <%=notFoundBean.getNotFoundText(0)%><br><br>
+        <input type="text" name="url1" value="<%=data.getUrl(0)%>"> <%=data.getNotFoundText(0)%><br><br>
     </label>
     <label>2. URL:
-        <input type="text" name="url2" value="<%=urLsBean.getUrl2()%>"> <%=notFoundBean.getNotFoundText(1)%><br><br>
+        <input type="text" name="url2" value="<%=data.getUrl(1)%>"> <%=data.getNotFoundText(1)%><br><br>
     </label>
     <label>3. URL:
-        <input type="text" name="url3" value="<%=urLsBean.getUrl3()%>"> <%=notFoundBean.getNotFoundText(2)%><br><br>
+        <input type="text" name="url3" value="<%=data.getUrl(2)%>"> <%=data.getNotFoundText(2)%><br><br>
     </label>
     <input type="submit" value="Best&auml;tigen">
 </form>

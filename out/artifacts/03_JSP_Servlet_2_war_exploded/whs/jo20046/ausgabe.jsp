@@ -1,4 +1,4 @@
-<%@ page import="whs.jo20046.beans.URLsBean" %>
+<%@ page import="whs.jo20046.beans.Data" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -6,11 +6,11 @@
 </head>
 <body>
 <%
-    URLsBean urLsBean = (URLsBean) session.getAttribute("URLs");
+    Data data = (Data) session.getAttribute("Data");
 %>
-url1: <%= urLsBean.getUrl1() %><br>
-url2: <%= urLsBean.getUrl2() %><br>
-url3: <%= urLsBean.getUrl3() %><br>
+url1: <%= data.getUrl(0) %><br>
+url2: <%= data.getUrl(1) %><br>
+url3: <%= data.getUrl(2) %><br>
 
 </body>
 </html>
